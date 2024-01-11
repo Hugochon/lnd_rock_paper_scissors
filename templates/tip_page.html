@@ -1,0 +1,62 @@
+<!-- tip_page.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Page</title>
+</head>
+<body>
+    <h1>Tip the Creator</h1>
+    
+    <form id="tipForm">
+        <button type="button" onclick="generateInvoice()">Generate Invoice</button>
+    </form>
+
+    <div id="invoiceDetails" style="display: none;">
+        <p>Invoice:</p>
+        <pre id="invoice"></pre>
+        <button type="button" onclick="processTip()">Process Tip</button>
+    </div>
+
+    <script>
+        function generateInvoice() {
+            // Make an AJAX request to the /generate_invoice endpoint
+            fetch('/generate_invoice', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error:', data.error);
+                } else {
+                    // Display the generated invoice details
+                    document.getElementById('invoice').textContent = data.invoice;
+                    document.getElementById('invoiceDetails').style.display = 'block';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function processTip() {
+            // Retrieve the invoice details
+            var invoice = document.getElementById('invoice').textContent;
+
+            // Make an AJAX request to the /process_tip endpoint
+            fetch('/process_tip', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({ invoice: invoice }),
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                alert(data);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

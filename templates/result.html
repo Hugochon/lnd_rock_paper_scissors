@@ -1,0 +1,19 @@
+<!-- templates/result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper, Scissors - Result</title>
+</head>
+<body>
+    <h1>Rock, Paper, Scissors - Result</h1>
+    <p>Your Choice: {{ user_choice }}</p>
+    <p>Server's Choice: {{ server_choice }}</p>
+    <p>Result: {{ result }}</p>
+    
+    <form action="{{ url_for('tip_page') }}" method="post">
+        <button type="submit">Tip 1 Satoshi</button>
+    </form>
+</body>
+</html>
